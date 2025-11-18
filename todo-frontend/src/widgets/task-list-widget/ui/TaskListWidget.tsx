@@ -23,7 +23,7 @@ export const TaskListWidget: React.FC<TaskListWidgetProps> = ({
   const { data: tasks = [], isLoading } = useGetTasks();
   const { complete, uncomplete } = useCompleteTask();
   const [completingTaskId, setCompletingTaskId] = useState<string | undefined>();
-  const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('pending');
+  const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('PENDING');
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleComplete = (taskId: string) => {

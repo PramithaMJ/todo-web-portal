@@ -31,14 +31,14 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
           All Tasks
         </button>
         <button
-          className={`task-filters__tab ${status === 'pending' ? 'task-filters__tab--active' : ''}`}
-          onClick={() => onStatusChange('pending')}
+          className={`task-filters__tab ${status === 'PENDING' ? 'task-filters__tab--active' : ''}`}
+          onClick={() => onStatusChange('PENDING')}
         >
           Pending
         </button>
         <button
-          className={`task-filters__tab ${status === 'completed' ? 'task-filters__tab--active' : ''}`}
-          onClick={() => onStatusChange('completed')}
+          className={`task-filters__tab ${status === 'COMPLETED' ? 'task-filters__tab--active' : ''}`}
+          onClick={() => onStatusChange('COMPLETED')}
         >
           Completed
         </button>

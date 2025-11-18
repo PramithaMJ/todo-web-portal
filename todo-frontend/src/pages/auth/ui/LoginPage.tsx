@@ -126,7 +126,7 @@ export const LoginPage: React.FC = () => {
           </form>
 
           <div className="login-page__divider">
-            <span>or</span>
+            <span>or continue with</span>
           </div>
 
           <div className="login-page__oauth">
@@ -169,8 +169,8 @@ export const LoginPage: React.FC = () => {
 
           <div className="login-page__demo">
             <p className="login-page__demo-text">Demo credentials:</p>
-            <p className="login-page__demo-text">Email: demo@example.com</p>
-            <p className="login-page__demo-text">Password: demo123</p>
+            <p className="login-page__demo-text">Email: abc@gmail.com</p>
+            <p className="login-page__demo-text">Password: 1234567890</p>
           </div>
         </div>
       </div>

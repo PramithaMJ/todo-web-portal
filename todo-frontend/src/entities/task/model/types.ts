@@ -4,7 +4,7 @@
  */
 
 export type TaskId = string;
-export type TaskStatus = 'pending' | 'completed';
+export type TaskStatus = 'PENDING' | 'COMPLETED';
 export type TaskPriority = 'low' | 'medium' | 'high';
 
 /**
@@ -15,7 +15,6 @@ export interface Task {
   title: string;
   description: string;
   status: TaskStatus;
-  priority: TaskPriority;
   createdAt: Date;
   updatedAt: Date;
   completedAt: Date | null;
@@ -28,7 +27,6 @@ export interface Task {
 export interface CreateTaskDTO {
   title: string;
   description: string;
-  priority?: TaskPriority;
 }
 
 /**
@@ -37,7 +35,6 @@ export interface CreateTaskDTO {
 export interface UpdateTaskDTO {
   title?: string;
   description?: string;
-  priority?: TaskPriority;
   status?: TaskStatus;
 }
 
@@ -46,6 +43,5 @@ export interface UpdateTaskDTO {
  */
 export interface TaskFilters {
   status?: TaskStatus;
-  priority?: TaskPriority;
   search?: string;
 }

@@ -9,6 +9,17 @@ import type { Task, CreateTaskDTO, UpdateTaskDTO, TaskFilters } from '../../../e
 import { taskSchema, createTaskSchema, updateTaskSchema } from './task.schemas';
 
 /**
+ * Paginated response from backend
+ */
+interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+}
+
+/**
  * Get all tasks for current user
  */
 export const getTasks = async (filters?: TaskFilters): Promise<Task[]> => {
@@ -17,9 +28,6 @@ export const getTasks = async (filters?: TaskFilters): Promise<Task[]> => {
   if (filters?.status) {
     params.append('status', filters.status);
   }
-  if (filters?.priority) {
-    params.append('priority', filters.priority);
-  }
   if (filters?.search) {
     params.append('search', filters.search);
   }
@@ -27,10 +35,13 @@ export const getTasks = async (filters?: TaskFilters): Promise<Task[]> => {
   const queryString = params.toString();
   const url = queryString ? `${API_ENDPOINTS.TASKS.BASE}?${queryString}` : API_ENDPOINTS.TASKS.BASE;
 
-  const response = await apiClient.get<Task[]>(url);
+  const response = await apiClient.get<PageResponse<Task>>(url);
+  
+  // Extract content from paginated response
+  const tasks = response.content || [];
   
   // Validate response with Zod
-  return response.map(task => taskSchema.parse(task));
+  return tasks.map(task => taskSchema.parse(task));
 };
 
 /**
@@ -74,14 +85,14 @@ export const deleteTask = async (id: string): Promise<void> => {
  * Mark task as completed
  */
 export const completeTask = async (id: string): Promise<Task> => {
-  const response = await apiClient.patch<Task>(API_ENDPOINTS.TASKS.COMPLETE(id));
+  const response = await apiClient.put<Task>(API_ENDPOINTS.TASKS.COMPLETE(id));
   return taskSchema.parse(response);
 };
 
 /**
- * Mark task as uncompleted
+ * Mark task as uncompleted (reopen)
  */
 export const uncompleteTask = async (id: string): Promise<Task> => {
-  const response = await apiClient.patch<Task>(API_ENDPOINTS.TASKS.UNCOMPLETE(id));
+  const response = await apiClient.put<Task>(API_ENDPOINTS.TASKS.REOPEN(id));
   return taskSchema.parse(response);
 };
