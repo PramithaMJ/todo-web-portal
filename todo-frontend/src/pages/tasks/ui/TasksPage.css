@@ -44,7 +44,9 @@
 .tasks-page__separator {
   background: var(--color-border);
   width: 2px;
-  height: 100%;
+  height: calc(100% - 4rem);
+  margin: 2rem 0;
+  align-self: center;
 }
 
 .tasks-page__main {
