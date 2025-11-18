@@ -1,0 +1,122 @@
+/* TaskForm Styles */
+
+.task-form {
+  background: var(--color-background);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+}
+
+.task-form__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1.5rem 0;
+}
+
+.task-form__field {
+  margin-bottom: 1rem;
+}
+
+.task-form__priority-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-form__priority-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.task-form__priority-options {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.task-form__priority-option {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-background);
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: var(--color-text-primary);
+}
+
+.task-form__priority-option:hover {
+  border-color: var(--color-border-hover);
+}
+
+.task-form__priority-option--selected {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.task-form__priority-option--low {
+  color: #10b981;
+}
+
+.task-form__priority-option--low.task-form__priority-option--selected {
+  border-color: #10b981;
+  background-color: #ecfdf5;
+}
+
+.task-form__priority-option--medium {
+  color: #f59e0b;
+}
+
+.task-form__priority-option--medium.task-form__priority-option--selected {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.task-form__priority-option--high {
+  color: #dc2626;
+}
+
+.task-form__priority-option--high.task-form__priority-option--selected {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.task-form__actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.task-form__actions .button {
+  min-width: 200px;
+  width: auto;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .task-form {
+    padding: 1.5rem;
+  }
+
+  .task-form__title {
+    font-size: 1.25rem;
+  }
+
+  .task-form__field {
+    margin-bottom: 1rem;
+  }
+
+  .task-form__priority-options {
+    gap: 0.5rem;
+  }
+
+  .task-form__priority-option {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+}

@@ -1,0 +1,98 @@
+/* TasksPage Styles */
+
+.tasks-page {
+  min-height: calc(100vh - 73px);
+  background-color: var(--color-background);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tasks-page__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+  flex: 1;
+}
+
+.tasks-page__grid {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 0;
+  width: 100%;
+  flex: 1;
+}
+
+.tasks-page__full {
+  width: 100%;
+  padding: 2rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.tasks-page__sidebar {
+  background: var(--color-background);
+  padding: 3rem 2.5rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.tasks-page__separator {
+  background: var(--color-border);
+  width: 2px;
+  height: calc(100% - 4rem);
+  margin: 2rem 0;
+  align-self: center;
+}
+
+.tasks-page__main {
+  background: var(--color-background);
+  padding: 3rem 2.5rem;
+  min-height: calc(100vh - 73px);
+  overflow-y: auto;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .tasks-page__sidebar {
+    padding: 2rem 1.5rem;
+  }
+  
+  .tasks-page__main {
+    padding: 2rem 1.5rem;
+  }
+
+  .tasks-page__full {
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .tasks-page__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 2px auto;
+  }
+
+  .tasks-page__separator {
+    width: 100%;
+    height: 2px;
+  }
+
+  .tasks-page__sidebar {
+    padding: 1.5rem 1rem;
+  }
+
+  .tasks-page__main {
+    padding: 1.5rem 1rem;
+    min-height: 50vh;
+  }
+
+  .tasks-page__full {
+    padding: 1.5rem 1rem;
+  }
+}

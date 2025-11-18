@@ -1,0 +1,8 @@
+/* TaskListWidget Styles */
+
+.task-list-widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0;
+}
