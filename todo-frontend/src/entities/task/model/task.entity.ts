@@ -3,8 +3,8 @@
  * Domain model with business logic
  */
 
-import type { Task, TaskId, TaskStatus, TaskPriority } from './types';
-import { TaskTitle, TaskDescription, TaskPriorityVO } from './value-objects';
+import type { Task, TaskId, TaskStatus } from './types';
+import { TaskTitle, TaskDescription } from './value-objects';
 
 /**
  * Task Entity class with business rules
@@ -14,7 +14,6 @@ export class TaskEntity {
   private title: TaskTitle;
   private description: TaskDescription;
   private status: TaskStatus;
-  private priority: TaskPriorityVO;
   public readonly createdAt: Date;
   private updatedAt: Date;
   private completedAt: Date | null;
@@ -25,7 +24,6 @@ export class TaskEntity {
     title: TaskTitle,
     description: TaskDescription,
     status: TaskStatus,
-    priority: TaskPriorityVO,
     createdAt: Date,
     updatedAt: Date,
     completedAt: Date | null,
@@ -35,7 +33,6 @@ export class TaskEntity {
     this.title = title;
     this.description = description;
     this.status = status;
-    this.priority = priority;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.completedAt = completedAt;
@@ -51,7 +48,6 @@ export class TaskEntity {
       TaskTitle.create(data.title),
       TaskDescription.create(data.description),
       data.status,
-      TaskPriorityVO.create(data.priority),
       data.createdAt,
       data.updatedAt,
       data.completedAt,
@@ -76,14 +72,6 @@ export class TaskEntity {
   }
 
   /**
-   * Updates task priority
-   */
-  updatePriority(newPriority: TaskPriority): void {
-    this.priority = TaskPriorityVO.create(newPriority);
-    this.touch();
-  }
-
-  /**
    * Marks task as completed
    */
   complete(): void {
@@ -91,7 +79,7 @@ export class TaskEntity {
       throw new Error('Task is already completed');
     }
 
-    this.status = 'completed';
+    this.status = 'COMPLETED';
     this.completedAt = new Date();
     this.touch();
   }
@@ -104,7 +92,7 @@ export class TaskEntity {
       throw new Error('Task is not completed');
     }
 
-    this.status = 'pending';
+    this.status = 'PENDING';
     this.completedAt = null;
     this.touch();
   }
@@ -113,21 +101,14 @@ export class TaskEntity {
    * Checks if task is completed
    */
   isCompleted(): boolean {
-    return this.status === 'completed';
+    return this.status === 'COMPLETED';
   }
 
   /**
    * Checks if task is pending
    */
   isPending(): boolean {
-    return this.status === 'pending';
-  }
-
-  /**
-   * Checks if task is high priority
-   */
-  isHighPriority(): boolean {
-    return this.priority.isHigh();
+    return this.status === 'PENDING';
   }
 
   /**
@@ -142,13 +123,6 @@ export class TaskEntity {
    */
   getDescription(): string {
     return this.description.getValue();
-  }
-
-  /**
-   * Gets task priority
-   */
-  getPriority(): TaskPriority {
-    return this.priority.getValue();
   }
 
   /**
@@ -181,7 +155,6 @@ export class TaskEntity {
       title: this.title.getValue(),
       description: this.description.getValue(),
       status: this.status,
-      priority: this.priority.getValue(),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       completedAt: this.completedAt,

@@ -11,9 +11,9 @@ import { z } from 'zod';
 export const taskPrioritySchema = z.enum(['low', 'medium', 'high']);
 
 /**
- * Task status schema
+ * Task status schema - matches backend enum (uppercase)
  */
-export const taskStatusSchema = z.enum(['pending', 'completed']);
+export const taskStatusSchema = z.enum(['PENDING', 'COMPLETED']);
 
 /**
  * Task schema
@@ -23,7 +23,6 @@ export const taskSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title is too long'),
   description: z.string().max(2000, 'Description is too long'),
   status: taskStatusSchema,
-  priority: taskPrioritySchema,
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   completedAt: z.coerce.date().nullable(),

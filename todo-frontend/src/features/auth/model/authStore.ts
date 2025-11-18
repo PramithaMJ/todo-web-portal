@@ -44,6 +44,11 @@ export const useAuthStore = create<AuthStore>()(
       ...initialState,
 
       setSession: (session: Session) => {
+        // Store tokens separately in localStorage for interceptors
+        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, session.accessToken);
+        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, session.refreshToken);
+        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(session.user));
+        
         set({
           user: session.user,
           accessToken: session.accessToken,
@@ -54,6 +59,11 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       clearSession: () => {
+        // Clear all auth data from localStorage
+        localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.USER_DATA);
+        
         set(initialState);
       },
 
@@ -70,11 +80,9 @@ export const useAuthStore = create<AuthStore>()(
       },
     }),
     {
-      name: STORAGE_KEYS.AUTH_TOKEN,
+      name: 'auth_state',
       partialize: (state) => ({
         user: state.user,
-        accessToken: state.accessToken,
-        refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
       }),
     }

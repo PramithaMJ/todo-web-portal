@@ -16,7 +16,7 @@ export interface TaskListProps {
   onComplete: (taskId: string) => void;
   onUncomplete: (taskId: string) => void;
   completingTaskId?: string;
-  statusFilter?: 'all' | 'pending' | 'completed';
+  statusFilter?: 'all' | 'PENDING' | 'COMPLETED';
   searchQuery?: string;
   maxTasks?: number;
 }

@@ -61,19 +61,16 @@ export const useAuth = () => {
   });
 
   /**
-   * OAuth login
+   * OAuth login - redirect to backend OAuth endpoint
    */
   const initiateOAuthLogin = useCallback(async (provider: OAuthProvider) => {
     try {
       setLoading(true);
-      const { url, state } = await oauthApi.getOAuthUrl(provider);
       
-      // Store state in session storage for verification
-      sessionStorage.setItem(SESSION_KEYS.OAUTH_STATE, state);
-      sessionStorage.setItem(SESSION_KEYS.REDIRECT_URL, window.location.pathname);
-      
-      // Redirect to OAuth provider
-      window.location.href = url;
+      // Redirect to backend OAuth endpoint
+      // Backend will redirect to Spring Security's OAuth2 authorization flow
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
+      window.location.href = `${baseUrl}/auth/oauth2/${provider}`;
     } catch (error) {
       console.error('OAuth initiation failed:', error);
       setLoading(false);

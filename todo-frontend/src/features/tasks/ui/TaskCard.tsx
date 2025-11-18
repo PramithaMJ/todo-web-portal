@@ -24,22 +24,20 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   isLoading = false,
 }) => {
   const handleToggle = () => {
-    if (task.status === 'completed') {
+    if (task.status === 'COMPLETED') {
       onUncomplete(task.id);
     } else {
       onComplete(task.id);
     }
   };
 
-  const priorityClass = `task-card__priority--${task.priority}`;
-  const isCompleted = task.status === 'completed';
+  const isCompleted = task.status === 'COMPLETED';
 
   return (
     <Card className={`task-card ${isCompleted ? 'task-card--completed' : ''}`} elevation="low">
       <CardBody>
         <div className="task-card__content">
           <div className="task-card__left">
-            <div className={`task-card__priority ${priorityClass}`} />
             <div className="task-card__info">
               <h3 className="task-card__title">{task.title}</h3>
               <p className="task-card__description">{task.description}</p>

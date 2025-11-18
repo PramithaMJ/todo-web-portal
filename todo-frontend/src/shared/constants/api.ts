@@ -10,16 +10,16 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
     ME: '/auth/me',
-    OAUTH_GOOGLE: '/auth/oauth/google',
-    OAUTH_GITHUB: '/auth/oauth/github',
-    OAUTH_CALLBACK: '/auth/oauth/callback',
+    OAUTH_GOOGLE: '/auth/oauth2/google',
+    OAUTH_GITHUB: '/auth/oauth2/github',
+    OAUTH_CALLBACK: '/auth/oauth2/callback',
   },
   // Task endpoints
   TASKS: {
     BASE: '/tasks',
     BY_ID: (id: string) => `/tasks/${id}`,
     COMPLETE: (id: string) => `/tasks/${id}/complete`,
-    UNCOMPLETE: (id: string) => `/tasks/${id}/uncomplete`,
+    REOPEN: (id: string) => `/tasks/${id}/reopen`,
   },
 } as const;
 
