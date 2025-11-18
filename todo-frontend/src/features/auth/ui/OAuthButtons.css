@@ -1,0 +1,19 @@
+/* OAuthButtons Styles */
+
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.oauth-icon {
+  flex-shrink: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .oauth-buttons {
+    gap: 0.625rem;
+  }
+}
