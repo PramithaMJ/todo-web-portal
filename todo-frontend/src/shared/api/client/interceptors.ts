@@ -51,6 +51,17 @@ export const responseErrorInterceptor = (axiosInstance: AxiosInstance) => {
 
     // Handle 401 Unauthorized - attempt token refresh
     if (status === 401 && !originalRequest._retry) {
+      // Don't redirect if this is a login or signup request - let the component handle the error
+      const isAuthRequest = originalRequest.url?.includes('/auth/login') || 
+                           originalRequest.url?.includes('/auth/signup') ||
+                           originalRequest.url?.includes('/auth/oauth');
+      
+      if (isAuthRequest) {
+        // For auth requests, just return the error without redirect
+        const message = data?.message || 'Invalid email or password';
+        return Promise.reject(createApiError(status, message, data?.details));
+      }
+
       originalRequest._retry = true;
 
       try {
