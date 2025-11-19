@@ -1,0 +1,40 @@
+# Maven
+# Keep target for simple Dockerfile
+# target/
+!target/*.jar
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environment files
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+
+# Test files
+**/src/test/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+Jenkinsfile

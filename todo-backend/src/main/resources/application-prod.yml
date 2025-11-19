@@ -9,11 +9,13 @@ spring:
 
 logging:
   level:
-    root: WARN
+    root: INFO
     com.pramithamj.todo: INFO
-    org.springframework.security: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
 
 server:
   error:
-    include-stacktrace: never
+    include-stacktrace: on_param
     include-exception: false
+    include-message: always

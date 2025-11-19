@@ -10,9 +10,9 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
     ME: '/auth/me',
-    OAUTH_GOOGLE: '/auth/oauth2/google',
-    OAUTH_GITHUB: '/auth/oauth2/github',
-    OAUTH_CALLBACK: '/auth/oauth2/callback',
+    OAUTH_GOOGLE: '/oauth2/authorization/google',
+    OAUTH_GITHUB: '/oauth2/authorization/github',
+    OAUTH_CALLBACK: '/login/oauth2/code',
   },
   // Task endpoints
   TASKS: {
