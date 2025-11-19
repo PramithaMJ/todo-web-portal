@@ -33,7 +33,7 @@ export const taskSchema = z.object({
  * Create task schema
  */
 export const createTaskSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(200, 'Title must be less than 200 characters'),
+  title: z.string().min(3, 'Title must be at least 3 characters').max(200, 'Title must be less than 200 characters'),
   description: z.string().max(2000, 'Description must be less than 2000 characters').default(''),
   priority: taskPrioritySchema.default('medium'),
 });
