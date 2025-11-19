@@ -1,38 +1,74 @@
-# Todo Application - Full Stack
+# Todo Web Portal - Full Stack Application
 
-A production-ready Todo application with Spring Boot backend, React frontend, and PostgreSQL database.
+A production-ready, enterprise-grade Todo application featuring a modern tech stack with Spring Boot backend, React frontend, PostgreSQL database, and comprehensive OAuth2 authentication.
+
+## ✨ Features
+
+- ✅ **Full CRUD Operations** - Create, read, update, and delete tasks
+- 🔐 **Secure Authentication** - JWT-based auth with OAuth2 (Google & GitHub)
+- 🎨 **Modern UI** - Responsive React interface with Vite
+- 🐳 **Docker Ready** - Fully containerized with Docker Compose
+- 🔒 **Production Security** - CORS, security headers, encrypted connections
+- 📊 **Health Monitoring** - Built-in health checks and actuator endpoints
+- 🚀 **Optimized Build** - Multi-stage Docker builds for minimal image sizes
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│                 │      │                 │      │                 │
-│   Frontend      │─────▶│   Backend       │─────▶│   PostgreSQL    │
-│   (React+Vite)  │      │   (Spring Boot) │      │   Database      │
+│   Frontend      │      │   Backend       │      │   PostgreSQL    │
+│   React + Vite  │─────▶│  Spring Boot    │─────▶│    Database     │
 │   Port: 3000    │      │   Port: 8080    │      │   Port: 5432    │
-│                 │      │                 │      │                 │
+│   Nginx         │      │   Java 21       │      │   Alpine        │
 └─────────────────┘      └─────────────────┘      └─────────────────┘
 ```
 
-## 🚀 Quick Start
+## 🛠️ Technologies Used
+
+### Backend
+- **Spring Boot 3.2.5** - Application framework
+- **Java 21** - Programming language
+- **Spring Security** - Authentication & authorization
+- **Spring Data JPA** - Database abstraction
+- **PostgreSQL** - Relational database
+- **Flyway** - Database migrations
+- **JWT** - Token-based authentication
+- **OAuth2** - Social login (Google, GitHub)
+- **Maven** - Build tool
+- **Docker** - Containerization
+
+### Frontend
+- **React 19** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+- **Zustand** - State management
+- **React Query** - Server state management
+- **CSS3** - Styling
+- **Nginx** - Production web server
+
+### DevOps
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+- **PostgreSQL Alpine** - Lightweight database image
+- **Multi-stage builds** - Optimized image sizes
+- **Health checks** - Service monitoring
+
+## Quick Start
 
 ### Prerequisites
 
 - Docker (20.10+)
 - Docker Compose (2.0+)
-- Make (optional, for convenience commands)
 
 ### 1. Clone and Setup
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd coverageX-todo
+git clone https://github.com/PramithaMJ/todo-web-portal.git
+cd todo-web-portal
 
-# Initialize environment file
-make init
-# OR manually:
-cp .env.example .env
 ```
 
 ### 2. Configure Environment
@@ -54,31 +90,11 @@ JWT_SECRET_KEY=your-secure-secret-key
 
 ### 3. Start the Application
 
-#### Using Make (Recommended)
-
-```bash
-# Complete setup (first time)
-make setup
-
-# Or step by step
-make build  # Build Docker images
-make up     # Start services
-
-# Development mode
-make dev    # Start with hot-reload
-
-# View logs
-make logs
-```
-
 #### Using Docker Compose Directly
 
 ```bash
 # Production mode
 docker-compose up -d
-
-# Development mode
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 # View logs
 docker-compose logs -f
@@ -91,32 +107,6 @@ docker-compose logs -f
 - **API Documentation**: http://localhost:8080/swagger-ui.html
 - **Database**: localhost:5432
 
-## 📋 Available Commands
-
-Run `make help` to see all available commands:
-
-```bash
-make help           # Show all commands
-make build          # Build Docker images
-make up             # Start all services (production)
-make down           # Stop all services
-make restart        # Restart services
-make logs           # Show all logs
-make logs-backend   # Show backend logs only
-make logs-frontend  # Show frontend logs only
-make logs-db        # Show database logs only
-make dev            # Start in development mode
-make clean          # Stop and remove all containers/volumes
-make prune          # Remove all unused Docker resources
-make ps             # Show running containers
-make shell-backend  # Open shell in backend container
-make shell-frontend # Open shell in frontend container
-make shell-db       # Open PostgreSQL shell
-make health         # Check health of all services
-make test-backend   # Run backend tests
-make test-frontend  # Run frontend tests
-```
-
 ## 🔧 Development
 
 ### Development Mode
@@ -127,9 +117,6 @@ Development mode includes:
 - Volume mounts for live code changes
 
 ```bash
-# Start development environment
-make dev
-
 # Or with docker-compose
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 ```
@@ -142,13 +129,6 @@ Access points in dev mode:
 ### Running Tests
 
 ```bash
-# Backend tests
-make test-backend
-
-# Frontend tests
-make test-frontend
-
-# Or manually
 cd todo-backend && ./mvnw test
 cd todo-frontend && npm test
 ```
@@ -156,10 +136,7 @@ cd todo-frontend && npm test
 ### Database Access
 
 ```bash
-# Open PostgreSQL shell
-make shell-db
-
-# Or with docker-compose
+# with docker-compose
 docker-compose exec postgres psql -U todouser -d tododb
 
 # Common queries
@@ -223,110 +200,13 @@ curl http://localhost:8080/actuator/health
 
 # Frontend health
 curl http://localhost:3000/health
-
-# Service status
-make health
 ```
 
 ### Logs
 
 ```bash
-# All services
-make logs
-
-# Specific service
-make logs-backend
-make logs-frontend
-make logs-db
-
 # Follow logs with grep
 docker-compose logs -f backend | grep ERROR
-```
-
-## 🔄 CI/CD Integration
-
-### Build Pipeline Example
-
-```yaml
-# .github/workflows/docker-build.yml
-name: Build and Push Docker Images
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Build images
-        run: docker-compose build
-      
-      - name: Run tests
-        run: |
-          make test-backend
-          make test-frontend
-      
-      - name: Push images
-        run: |
-          docker-compose push
-```
-
-## 🚨 Troubleshooting
-
-### Port Already in Use
-
-```bash
-# Check what's using the port
-lsof -i :8080
-lsof -i :3000
-lsof -i :5432
-
-# Change ports in .env file
-BACKEND_PORT=8081
-FRONTEND_PORT=3001
-DB_PORT=5433
-```
-
-### Database Connection Issues
-
-```bash
-# Check database logs
-make logs-db
-
-# Restart database
-docker-compose restart postgres
-
-# Reset database (WARNING: deletes all data)
-make clean
-make up
-```
-
-### Container Won't Start
-
-```bash
-# Check container status
-make ps
-
-# View detailed logs
-make logs
-
-# Rebuild from scratch
-make clean
-make build
-make up
-```
-
-### Memory Issues
-
-```bash
-# Increase Docker memory limit in Docker Desktop
-# Settings -> Resources -> Memory (recommend 4GB minimum)
-
-# Or adjust JVM memory in docker-compose.yml
-JAVA_OPTS: "-Xms256m -Xmx1g"
 ```
 
 ## 📝 Environment Variables
@@ -378,12 +258,6 @@ docker-compose build
 
 # Start services
 docker-compose up -d
-
-# Check health
-make health
-
-# View logs
-make logs
 ```
 
 ### Scaling
@@ -397,18 +271,7 @@ docker-compose up -d --scale backend=3
 
 ## 📚 Additional Documentation
 
-- [Backend Security Implementation](./todo-backend/SECURITY_IMPLEMENTATION.md)
-- [Frontend Documentation](./todo-frontend/README.md)
 - [API Documentation](http://localhost:8080/swagger-ui.html)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Run tests: `make test-backend && make test-frontend`
-4. Commit your changes
-5. Push to the branch
-6. Create a Pull Request
 
 ## 📄 License
 
@@ -416,10 +279,4 @@ This project is licensed under the MIT License.
 
 ## 👥 Authors
 
-- Pramitha MJ
-
-## 🙏 Acknowledgments
-
-- Spring Boot team
-- React team
-- PostgreSQL community
+- PramithaMJ
