@@ -15,7 +15,7 @@ const mockTask: Task = {
   status: 'PENDING',
   createdAt: new Date('2025-11-18T10:00:00Z'),
   updatedAt: new Date('2025-11-18T10:00:00Z'),
-  completedAt: undefined,
+  completedAt: null,
   userId: 'user-1',
 };
 
