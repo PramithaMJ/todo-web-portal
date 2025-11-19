@@ -36,6 +36,14 @@
   margin-bottom: 2rem;
 }
 
+.login-page__logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1rem;
+  display: block;
+  object-fit: contain;
+}
+
 .login-page__title {
   font-size: 2rem;
   font-weight: 700;

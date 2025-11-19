@@ -23,7 +23,8 @@ export const Navbar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar__container">
         <div className="navbar__brand">
-          <h1 className="navbar__logo">TaskManager</h1>
+          <img src="/logo.png" alt="TODO App" className="navbar__logo-img" />
+          <h1 className="navbar__logo">TODO App</h1>
         </div>
         
         {/* Mobile Menu Button */}
