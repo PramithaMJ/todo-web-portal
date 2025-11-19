@@ -14,6 +14,7 @@ export const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const isOnTasksPage = location.pathname === '/tasks';
   const currentTab = location.state?.tab || 'dashboard';
@@ -24,6 +25,20 @@ export const Navbar: React.FC = () => {
         <div className="navbar__brand">
           <h1 className="navbar__logo">TaskManager</h1>
         </div>
+        
+        {/* Mobile Menu Button */}
+        {isAuthenticated && (
+          <button 
+            className="navbar__mobile-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        )}
+
         <div className="navbar__actions">
           {isAuthenticated && isOnTasksPage && (
             <div className="navbar__nav-buttons">
@@ -52,6 +67,50 @@ export const Navbar: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isAuthenticated && isMobileMenuOpen && (
+        <div className="navbar__mobile-menu">
+          {isOnTasksPage && (
+            <div className="navbar__mobile-nav">
+              <button
+                className={`navbar__mobile-nav-button ${currentTab === 'dashboard' ? 'navbar__mobile-nav-button--active' : ''}`}
+                onClick={() => {
+                  navigate('/tasks', { state: { tab: 'dashboard' } });
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                Dashboard
+              </button>
+              <button
+                className={`navbar__mobile-nav-button ${currentTab === 'all-tasks' ? 'navbar__mobile-nav-button--active' : ''}`}
+                onClick={() => {
+                  navigate('/tasks', { state: { tab: 'all-tasks' } });
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                All Tasks
+              </button>
+            </div>
+          )}
+          {user && (
+            <div className="navbar__mobile-user">
+              <span className="navbar__mobile-user-name">Hi, {user.name}</span>
+              <Button 
+                variant="ghost" 
+                size="small" 
+                onClick={() => {
+                  logout();
+                  setIsMobileMenuOpen(false);
+                }}
+                fullWidth
+              >
+                Logout
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

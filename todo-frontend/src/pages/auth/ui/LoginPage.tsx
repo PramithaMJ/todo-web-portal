@@ -10,8 +10,8 @@ import { Button } from '../../../shared/ui/Button/Button';
 import { Input } from '../../../shared/ui/Input/Input';
 import type { OAuthProvider } from '../../../entities/session/model/types';
 import './LoginPage.css';
-
-export const LoginPage: React.FC = () => {
+(GitHub Pages, Vercel, Netlifyu
+ const LoginPage: React.FC = () => {
   const { initiateOAuthLogin, loginAsync } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
@@ -98,7 +98,7 @@ export const LoginPage: React.FC = () => {
       <div className="login-page__container">
         <div className="login-page__card">
           <div className="login-page__header">
-            <h1 className="login-page__title">Welcome Back</h1>
+            <h1 className="login-page__title">Sign In</h1>
             <p className="login-page__subtitle">Sign in to your account</p>
           </div>
 
@@ -180,12 +180,6 @@ export const LoginPage: React.FC = () => {
                 Sign up
               </Link>
             </p>
-          </div>
-
-          <div className="login-page__demo">
-            <p className="login-page__demo-text">Demo credentials:</p>
-            <p className="login-page__demo-text">Email: abc@gmail.com</p>
-            <p className="login-page__demo-text">Password: 1234567890</p>
           </div>
         </div>
       </div>

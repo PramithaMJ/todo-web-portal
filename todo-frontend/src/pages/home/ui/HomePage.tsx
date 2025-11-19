@@ -22,10 +22,6 @@ export const HomePage: React.FC = () => {
   return (
     <div className="home-page">
       <div className="home-page__container">
-        <h1 className="home-page__title">Welcome to TaskManager</h1>
-        <p className="home-page__description">
-          Organize your tasks efficiently and boost your productivity
-        </p>
         <div className="home-page__buttons">
           <Button
             variant="primary"

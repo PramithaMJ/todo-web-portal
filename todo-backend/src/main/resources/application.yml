@@ -41,14 +41,14 @@ spring:
             scope:
               - email
               - profile
-            redirect-uri: "{baseUrl}/api/v1/auth/oauth2/callback/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
           github:
             client-id: ${GITHUB_CLIENT_ID:}
             client-secret: ${GITHUB_CLIENT_SECRET:}
             scope:
               - user:email
               - read:user
-            redirect-uri: "{baseUrl}/api/v1/auth/oauth2/callback/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
 
 server:
   port: 8080
@@ -59,6 +59,13 @@ server:
     include-binding-errors: always
     include-stacktrace: on_param
     include-exception: false
+  # Handle X-Forwarded-* headers from Cloudflare Tunnel
+  forward-headers-strategy: framework
+  tomcat:
+    remoteip:
+      remote-ip-header: X-Forwarded-For
+      protocol-header: X-Forwarded-Proto
+      port-header: X-Forwarded-Port
 
 # JWT Configuration
 application:
@@ -81,7 +88,7 @@ application:
     github:
       client-id: ${GITHUB_CLIENT_ID}
       client-secret: ${GITHUB_CLIENT_SECRET}
-    authorized-redirect-uris: ${AUTHORIZED_REDIRECT_URIS:http://localhost:3000/auth/callback}
+    authorized-redirect-uris: ${AUTHORIZED_REDIRECT_URIS:https://todo-web-portal.pages.dev/auth/callback,http://localhost:3000/auth/callback,http://localhost:5173/auth/callback}
 
 # Logging Configuration
 logging:
