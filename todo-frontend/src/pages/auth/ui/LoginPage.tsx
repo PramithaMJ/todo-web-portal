@@ -98,7 +98,7 @@ export const LoginPage: React.FC = () => {
       <div className="login-page__container">
         <div className="login-page__card">
           <div className="login-page__header">
-            <h1 className="login-page__title">Welcome Back</h1>
+            <h1 className="login-page__title">Sign In</h1>
             <p className="login-page__subtitle">Sign in to your account</p>
           </div>
 
@@ -180,12 +180,6 @@ export const LoginPage: React.FC = () => {
                 Sign up
               </Link>
             </p>
-          </div>
-
-          <div className="login-page__demo">
-            <p className="login-page__demo-text">Demo credentials:</p>
-            <p className="login-page__demo-text">Email: abc@gmail.com</p>
-            <p className="login-page__demo-text">Password: 1234567890</p>
           </div>
         </div>
       </div>

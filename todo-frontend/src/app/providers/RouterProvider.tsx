@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { HomePage } from '../../pages/home/ui/HomePage';
 import { LoginPage } from '../../pages/auth/ui/LoginPage';
 import { SignUpPage } from '../../pages/auth/ui/SignUpPage';
 import { CallbackPage } from '../../pages/auth/ui/CallbackPage';
@@ -42,7 +41,7 @@ export const RouterProvider: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/auth/callback" element={<CallbackPage />} />
@@ -56,7 +55,7 @@ export const RouterProvider: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

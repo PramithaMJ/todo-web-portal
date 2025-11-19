@@ -16,18 +16,9 @@
   text-align: center;
   color: white;
   max-width: 600px;
-}
-
-.home-page__title {
-  font-size: 3rem;
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-}
-
-.home-page__description {
-  font-size: 1.25rem;
-  margin: 0 0 2rem 0;
-  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home-page__buttons {
@@ -39,11 +30,13 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .home-page__title {
-    font-size: 2rem;
+  .home-page {
+    padding: 1rem;
   }
-
-  .home-page__description {
-    font-size: 1rem;
+  
+  .home-page__buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
   }
 }

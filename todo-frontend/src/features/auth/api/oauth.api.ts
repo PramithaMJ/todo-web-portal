@@ -22,7 +22,7 @@ export interface OAuthCallbackRequest {
  * Note: Spring Boot OAuth2 handles the redirect directly, no API call needed
  */
 export const getOAuthUrl = (provider: OAuthProvider): string => {
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  const baseUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:8080';
   
   switch (provider) {
     case 'google':

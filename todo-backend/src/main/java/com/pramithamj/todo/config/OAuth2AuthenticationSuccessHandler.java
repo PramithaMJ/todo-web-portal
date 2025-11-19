@@ -108,8 +108,20 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String extractEmail(Map<String, Object> attributes) {
-        return (String) attributes.getOrDefault("email", 
-                attributes.getOrDefault("login", "unknown") + "@oauth.local");
+        String email = (String) attributes.get("email");
+        
+        // If email is not present (GitHub private email case), use login + provider domain
+        if (email == null || email.isEmpty()) {
+            String login = (String) attributes.get("login");
+            if (login != null) {
+                // Generate a unique email using GitHub username
+                email = login + "@github.oauth.local";
+            } else {
+                email = "unknown@oauth.local";
+            }
+        }
+        
+        return email;
     }
 
     private String extractName(Map<String, Object> attributes) {
