@@ -26,6 +26,7 @@ describe('useGetTasks', () => {
       createdAt: new Date('2024-01-01T00:00:00.000Z'),
       updatedAt: new Date('2024-01-01T00:00:00.000Z'),
       userId: 'user-123',
+      completedAt: null,
     },
     {
       id: '123e4567-e89b-12d3-a456-426614174001',
@@ -35,6 +36,7 @@ describe('useGetTasks', () => {
       createdAt: new Date('2024-01-02T00:00:00.000Z'),
       updatedAt: new Date('2024-01-02T00:00:00.000Z'),
       userId: 'user-123',
+      completedAt: new Date('2024-01-02T12:00:00.000Z'),
     },
   ];
 
