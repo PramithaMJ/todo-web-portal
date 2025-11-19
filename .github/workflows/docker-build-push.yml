@@ -45,7 +45,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=sha-
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Backend Docker image
@@ -53,7 +53,7 @@ jobs:
         with:
           context: ./todo-backend
           file: ./todo-backend/Dockerfile
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=${{ env.BACKEND_IMAGE }}:buildcache
@@ -87,7 +87,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=sha-
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Frontend Docker image
@@ -95,7 +95,7 @@ jobs:
         with:
           context: ./todo-frontend
           file: ./todo-frontend/Dockerfile
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
