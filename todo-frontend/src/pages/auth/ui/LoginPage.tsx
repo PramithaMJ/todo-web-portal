@@ -98,6 +98,7 @@ export const LoginPage: React.FC = () => {
       <div className="login-page__container">
         <div className="login-page__card">
           <div className="login-page__header">
+            <img src="/logo.png" alt="TODO App" className="login-page__logo" />
             <h1 className="login-page__title">Sign In</h1>
             <p className="login-page__subtitle">Sign in to your account</p>
           </div>
