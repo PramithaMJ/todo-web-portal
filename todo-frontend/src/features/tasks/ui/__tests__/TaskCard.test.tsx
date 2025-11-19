@@ -12,8 +12,7 @@ const mockTask: Task = {
   id: '1',
   title: 'Test Task',
   description: 'Test Description',
-  status: 'pending',
-  priority: 'high',
+  status: 'PENDING',
   createdAt: new Date('2025-11-18T10:00:00Z'),
   updatedAt: new Date('2025-11-18T10:00:00Z'),
   completedAt: null,
@@ -56,7 +55,7 @@ describe('TaskCard', () => {
   it('should show Undo button for completed tasks', () => {
     const completedTask: Task = {
       ...mockTask,
-      status: 'completed',
+      status: 'COMPLETED',
       completedAt: new Date(),
     };
 
@@ -69,18 +68,5 @@ describe('TaskCard', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument();
-  });
-
-  it('should apply priority class', () => {
-    render(
-      <TaskCard
-        task={mockTask}
-        onComplete={vi.fn()}
-        onUncomplete={vi.fn()}
-      />
-    );
-
-    const priorityElement = document.querySelector('.task-card__priority--high');
-    expect(priorityElement).toBeInTheDocument();
   });
 });

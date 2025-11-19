@@ -4,7 +4,7 @@
  */
 
 import { isEmpty, isLengthValid } from '../../../shared/lib/utils/validators';
-import { TaskPriority } from './types';
+import type { TaskPriority } from './types';
 
 /**
  * Task Title value object
@@ -12,8 +12,11 @@ import { TaskPriority } from './types';
 export class TaskTitle {
   private static readonly MIN_LENGTH = 1;
   private static readonly MAX_LENGTH = 200;
+  private readonly value: string;
 
-  private constructor(private readonly value: string) {}
+  private constructor(value: string) {
+    this.value = value;
+  }
 
   static create(title: string): TaskTitle {
     const trimmed = title.trim();
@@ -45,8 +48,11 @@ export class TaskTitle {
  */
 export class TaskDescription {
   private static readonly MAX_LENGTH = 2000;
+  private readonly value: string;
 
-  private constructor(private readonly value: string) {}
+  private constructor(value: string) {
+    this.value = value;
+  }
 
   static create(description: string): TaskDescription {
     const trimmed = description.trim();
@@ -76,8 +82,11 @@ export class TaskDescription {
  */
 export class TaskPriorityVO {
   private static readonly VALID_PRIORITIES: TaskPriority[] = ['low', 'medium', 'high'];
+  private readonly value: TaskPriority;
 
-  private constructor(private readonly value: TaskPriority) {}
+  private constructor(value: TaskPriority) {
+    this.value = value;
+  }
 
   static create(priority: TaskPriority): TaskPriorityVO {
     if (!TaskPriorityVO.VALID_PRIORITIES.includes(priority)) {

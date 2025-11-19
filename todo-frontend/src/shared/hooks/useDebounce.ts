@@ -48,7 +48,7 @@ export function useDebouncedCallback<T extends (...args: unknown[]) => unknown>(
 
     const newTimeoutId = setTimeout(() => {
       callback(...args);
-    }, delay);
+    }, delay) as unknown as number;
 
     setTimeoutId(newTimeoutId);
   };

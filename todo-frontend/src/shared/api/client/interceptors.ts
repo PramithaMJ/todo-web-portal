@@ -24,7 +24,7 @@ export const authRequestInterceptor = (config: InternalAxiosRequestConfig) => {
 /**
  * Handles request errors
  */
-export const requestErrorInterceptor = (error: AxiosError) => {
+export const requestErrorInterceptor = (_error: AxiosError) => {
   return Promise.reject(new NetworkError('Request failed to send'));
 };
 

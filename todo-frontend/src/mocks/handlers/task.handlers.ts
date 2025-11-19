@@ -65,8 +65,7 @@ export const taskHandlers = [
       id: `task-${Date.now()}`,
       title: data.title,
       description: data.description,
-      status: 'pending',
-      priority: data.priority || 'medium',
+      status: 'PENDING',
       createdAt: new Date(),
       updatedAt: new Date(),
       completedAt: null,
@@ -95,9 +94,9 @@ export const taskHandlers = [
   }),
 
   // Complete task
-  http.patch(`${API_BASE_URL}/tasks/:id/complete`, ({ params }) => {
+  http.put(`${API_BASE_URL}/tasks/:id/complete`, ({ params }) => {
     const updated = updateTask(params.id as string, {
-      status: 'completed',
+      status: 'COMPLETED',
       completedAt: new Date(),
     });
     
@@ -108,10 +107,10 @@ export const taskHandlers = [
     return HttpResponse.json(updated);
   }),
 
-  // Uncomplete task
-  http.patch(`${API_BASE_URL}/tasks/:id/uncomplete`, ({ params }) => {
+  // Reopen task
+  http.put(`${API_BASE_URL}/tasks/:id/reopen`, ({ params }) => {
     const updated = updateTask(params.id as string, {
-      status: 'pending',
+      status: 'PENDING',
       completedAt: null,
     });
     

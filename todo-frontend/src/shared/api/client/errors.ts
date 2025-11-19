@@ -4,15 +4,23 @@
  */
 
 export class ApiError extends Error {
+  public message: string;
+  public statusCode?: number;
+  public code?: string;
+  public details?: unknown;
+
   constructor(
-    public message: string,
-    public statusCode?: number,
-    public code?: string,
-    public details?: unknown
+    message: string,
+    statusCode?: number,
+    code?: string,
+    details?: unknown
   ) {
     super(message);
     this.name = 'ApiError';
-    Object.setPrototypeOf(this, ApiError.prototype);
+    this.message = message;
+    this.statusCode = statusCode;
+    this.code = code;
+    this.details = details;
   }
 }
 
@@ -20,7 +28,6 @@ export class NetworkError extends ApiError {
   constructor(message: string = 'Network error occurred') {
     super(message, undefined, 'NETWORK_ERROR');
     this.name = 'NetworkError';
-    Object.setPrototypeOf(this, NetworkError.prototype);
   }
 }
 
@@ -28,7 +35,6 @@ export class AuthenticationError extends ApiError {
   constructor(message: string = 'Authentication failed', statusCode: number = 401) {
     super(message, statusCode, 'AUTH_ERROR');
     this.name = 'AuthenticationError';
-    Object.setPrototypeOf(this, AuthenticationError.prototype);
   }
 }
 
@@ -36,7 +42,6 @@ export class AuthorizationError extends ApiError {
   constructor(message: string = 'Access forbidden', statusCode: number = 403) {
     super(message, statusCode, 'AUTHORIZATION_ERROR');
     this.name = 'AuthorizationError';
-    Object.setPrototypeOf(this, AuthorizationError.prototype);
   }
 }
 
@@ -44,7 +49,6 @@ export class ValidationError extends ApiError {
   constructor(message: string = 'Validation failed', details?: unknown) {
     super(message, 400, 'VALIDATION_ERROR', details);
     this.name = 'ValidationError';
-    Object.setPrototypeOf(this, ValidationError.prototype);
   }
 }
 
@@ -52,7 +56,6 @@ export class NotFoundError extends ApiError {
   constructor(message: string = 'Resource not found') {
     super(message, 404, 'NOT_FOUND');
     this.name = 'NotFoundError';
-    Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 }
 
@@ -60,7 +63,6 @@ export class ServerError extends ApiError {
   constructor(message: string = 'Internal server error', statusCode: number = 500) {
     super(message, statusCode, 'SERVER_ERROR');
     this.name = 'ServerError';
-    Object.setPrototypeOf(this, ServerError.prototype);
   }
 }
 
