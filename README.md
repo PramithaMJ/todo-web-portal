@@ -1,5 +1,8 @@
 # Todo Web Portal - Full Stack Application
 
+[![Build and Push Backend Docker Images](https://github.com/PramithaMJ/todo-web-portal/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/PramithaMJ/todo-web-portal/actions/workflows/docker-build-push.yml)
+[![Build and Push Frontend Docker Images](https://github.com/PramithaMJ/todo-web-portal/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/PramithaMJ/todo-web-portal/actions/workflows/docker-build-push.yml)
+
 A production-ready, enterprise-grade Todo application featuring a modern tech stack with Spring Boot backend, React frontend, PostgreSQL database, and comprehensive OAuth2 authentication.
 
 ## ✨ Features
@@ -61,6 +64,35 @@ A production-ready, enterprise-grade Todo application featuring a modern tech st
 
 - Docker (20.10+)
 - Docker Compose (2.0+)
+
+### Full Stack Deployment (All-in-One)
+
+```bash
+# Clone the repository
+git clone https://github.com/PramithaMJ/todo-web-portal.git
+cd todo-web-portal
+
+# Configure environment
+cp .env.example .env
+nano .env  # Update credentials
+
+# Start all services
+docker-compose up -d
+```
+
+### Backend-Only Deployment (Recommended for Production)
+
+For production, it's recommended to deploy backend on your server and frontend on static hosting.
+
+#### Quick Backend Deploy:
+
+```bash
+# Use the deployment script
+./deploy-backend.sh
+
+# Or manually
+docker-compose -f docker-compose.backend.yml up -d
+```
 
 ### 1. Clone and Setup
 
@@ -351,12 +383,13 @@ Then:
 
 ```bash
 docker-compose -f docker-compose.hub.yml up -d
+
 ```
-
-## 📚 Additional Documentation
-
-- [API Documentation](http://localhost:8080/swagger-ui.html)
-- [GitHub Actions Workflow](.github/workflows/docker-build-push.yml)
+### Configuration Files
+- `docker-compose.yml` - Full stack (all services)
+- `docker-compose.backend.yml` - Backend only (recommended for production)
+- `docker-compose.hub.yml` - Using pre-built Docker Hub images
+- `.env.backend` - Backend environment template
 
 ## 📄 License
 
