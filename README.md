@@ -269,9 +269,94 @@ docker-compose up -d --scale backend=3
 # Use load balancer (nginx, traefik, etc.)
 ```
 
+## 🚀 CI/CD Pipeline
+
+### GitHub Actions - Docker Hub Deployment
+
+This project includes automated CI/CD pipeline that builds and pushes Docker images to Docker Hub.
+
+📖 **[Complete Setup Guide](GITHUB_ACTIONS_SETUP.md)** - Detailed step-by-step instructions
+
+#### Quick Setup
+
+Go to your GitHub repository → Settings → Secrets and variables → Actions, and add:
+
+1. **DOCKER_USERNAME** - Your Docker Hub username
+2. **DOCKER_PASSWORD** - Your Docker Hub password or access token
+3. **VITE_API_URL** (optional) - Production API URL for frontend (e.g., `http://your-server-ip:8080`)
+
+#### Pipeline Features
+
+- Builds on push to `main` or `develop` branches
+- Builds on version tags (`v*`)
+- Multi-platform support (linux/amd64, linux/arm64)
+- Docker layer caching for faster builds
+- Automatic semantic versioning
+- Separate jobs for backend and frontend
+- Manual workflow dispatch option
+
+#### Trigger Build
+
+```bash
+# Automatic trigger on push
+git push origin main
+
+# Create version tag
+git tag -a v1.0.0 -m "Release version 1.0.0"
+git push origin v1.0.0
+
+# Manual trigger via GitHub UI
+# Go to Actions → Build and Push Docker Images → Run workflow
+```
+
+#### Pull Images from Docker Hub
+
+```bash
+# Pull latest images
+docker pull <your-dockerhub-username>/todo-backend:latest
+docker pull <your-dockerhub-username>/todo-frontend:latest
+
+# Pull specific version
+docker pull <your-dockerhub-username>/todo-backend:v1.0.0
+docker pull <your-dockerhub-username>/todo-frontend:v1.0.0
+```
+
+#### Using Published Images
+
+Use the pre-configured `docker-compose.hub.yml`:
+
+```bash
+# Set your Docker Hub username
+export DOCKER_USERNAME=your-dockerhub-username
+
+# Pull and run images from Docker Hub
+docker-compose -f docker-compose.hub.yml pull
+docker-compose -f docker-compose.hub.yml up -d
+
+# Or use specific versions
+export BACKEND_VERSION=v1.0.0
+export FRONTEND_VERSION=v1.0.0
+docker-compose -f docker-compose.hub.yml up -d
+```
+
+Or update your `.env` file:
+
+```bash
+DOCKER_USERNAME=your-dockerhub-username
+BACKEND_VERSION=latest
+FRONTEND_VERSION=latest
+```
+
+Then:
+
+```bash
+docker-compose -f docker-compose.hub.yml up -d
+```
+
 ## 📚 Additional Documentation
 
 - [API Documentation](http://localhost:8080/swagger-ui.html)
+- [GitHub Actions Workflow](.github/workflows/docker-build-push.yml)
 
 ## 📄 License
 
