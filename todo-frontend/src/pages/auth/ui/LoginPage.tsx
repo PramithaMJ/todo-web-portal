@@ -10,8 +10,8 @@ import { Button } from '../../../shared/ui/Button/Button';
 import { Input } from '../../../shared/ui/Input/Input';
 import type { OAuthProvider } from '../../../entities/session/model/types';
 import './LoginPage.css';
-(GitHub Pages, Vercel, Netlifyu
- const LoginPage: React.FC = () => {
+
+export const LoginPage: React.FC = () => {
   const { initiateOAuthLogin, loginAsync } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
