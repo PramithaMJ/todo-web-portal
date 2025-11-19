@@ -45,7 +45,7 @@ export const Navbar: React.FC = () => {
           {isAuthenticated && user && (
             <>
               <span className="navbar__user">Hi, {user.name}</span>
-              <Button variant="ghost" size="small" onClick={logout}>
+              <Button variant="ghost" size="small" onClick={() => logout()}>
                 Logout
               </Button>
             </>

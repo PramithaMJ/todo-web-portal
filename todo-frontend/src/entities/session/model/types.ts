@@ -3,7 +3,7 @@
  * Pure domain types for Session/Authentication
  */
 
-import { User } from '../../user/model/types';
+import type { User } from '../../user/model/types';
 
 /**
  * Authentication session interface

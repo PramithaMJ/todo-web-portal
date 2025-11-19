@@ -18,39 +18,39 @@ export interface OAuthCallbackRequest {
 }
 
 /**
- * Get OAuth authorization URL for Google
+ * Get OAuth authorization URL for provider
+ * Note: Spring Boot OAuth2 handles the redirect directly, no API call needed
  */
-export const getGoogleOAuthUrl = async (): Promise<OAuthUrlResponse> => {
-  return apiClient.get<OAuthUrlResponse>(API_ENDPOINTS.AUTH.OAUTH_GOOGLE);
+export const getOAuthUrl = (provider: OAuthProvider): string => {
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  
+  switch (provider) {
+    case 'google':
+      return `${baseUrl}${API_ENDPOINTS.AUTH.OAUTH_GOOGLE}`;
+    case 'github':
+      return `${baseUrl}${API_ENDPOINTS.AUTH.OAUTH_GITHUB}`;
+    default:
+      throw new Error(`Unsupported OAuth provider: ${provider}`);
+  }
 };
 
 /**
- * Get OAuth authorization URL for GitHub
+ * Get Google OAuth URL
  */
-export const getGithubOAuthUrl = async (): Promise<OAuthUrlResponse> => {
-  return apiClient.get<OAuthUrlResponse>(API_ENDPOINTS.AUTH.OAUTH_GITHUB);
-};
+export const getGoogleOAuthUrl = (): string => getOAuthUrl('google');
+
+/**
+ * Get GitHub OAuth URL
+ */
+export const getGithubOAuthUrl = (): string => getOAuthUrl('github');
 
 /**
  * Handle OAuth callback
+ * Spring Boot OAuth2 handles the callback automatically and redirects to success handler
  */
 export const handleOAuthCallback = async (
   provider: OAuthProvider,
   data: OAuthCallbackRequest
 ): Promise<AuthResponse> => {
   return apiClient.post<AuthResponse>(`${API_ENDPOINTS.AUTH.OAUTH_CALLBACK}/${provider}`, data);
-};
-
-/**
- * Get OAuth URL by provider
- */
-export const getOAuthUrl = async (provider: OAuthProvider): Promise<OAuthUrlResponse> => {
-  switch (provider) {
-    case 'google':
-      return getGoogleOAuthUrl();
-    case 'github':
-      return getGithubOAuthUrl();
-    default:
-      throw new Error(`Unsupported OAuth provider: ${provider}`);
-  }
 };

@@ -56,9 +56,24 @@ export const LoginPage: React.FC = () => {
       });
       // Navigation happens automatically in useAuth
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Invalid email or password';
+      let errorMessage = 'Invalid username or password. Please try again.';
+      
+      if (error instanceof Error) {
+        // Check for specific error messages
+        if (error.message.includes('Invalid email or password')) {
+          errorMessage = 'Invalid username or password. Please check your credentials and try again.';
+        } else if (error.message.includes('Network')) {
+          errorMessage = 'Network error. Please check your connection and try again.';
+        } else if (error.message.includes('User not found')) {
+          errorMessage = 'No account found with this email. Please sign up first.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       setErrors({
-        ...errors,
+        email: '',
+        password: '',
         general: errorMessage,
       });
     } finally {

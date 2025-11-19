@@ -1,0 +1,14 @@
+# Keep dist folder for prebuilt image
+# Only ignore unnecessary files
+node_modules/
+.git/
+.vscode/
+.idea/
+*.md
+docs/
+test-results/
+playwright-report/
+coverage/
+.env
+.env.*
+!.env.example

@@ -1,0 +1,104 @@
+# Production Override Configuration
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# This file adds production-specific settings on top of base docker-compose.yml
+
+services:
+  # PostgreSQL - Production Settings
+  postgres:
+    restart: always
+    environment:
+      # Production database settings with stricter encoding
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    # Don't expose database port externally in production for security
+    ports: []
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+      - ./backups:/backups  # Mount backup directory
+    # Production resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    # Stricter healthcheck in production
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Backend - Production Settings
+  backend:
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      # Production JVM settings - optimized for containerized environment
+      JAVA_OPTS: >-
+        -server
+        -Xms1g -Xmx2g
+        -XX:+UseG1GC
+        -XX:MaxGCPauseMillis=200
+        -XX:+UseStringDeduplication
+        -XX:+OptimizeStringConcat
+        -XX:+UseCompressedOops
+        -XX:+HeapDumpOnOutOfMemoryError
+        -XX:HeapDumpPath=/app/logs/heap-dump.hprof
+        -Djava.security.egd=file:/dev/./urandom
+      # Production logging
+      LOGGING_LEVEL_ROOT: warn
+      LOGGING_LEVEL_COM_PRAMITHAMJ: info
+      # Disable dev-only features
+      ENABLE_SWAGGER: "false"
+      SPRING_DEVTOOLS_RESTART_ENABLED: "false"
+    volumes:
+      - backend_logs_prod:/app/logs
+      - backend_heap_dumps:/app/logs
+    # Production resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    # Stricter healthcheck with longer startup time
+    healthcheck:
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+
+  # Frontend - Production Settings
+  frontend:
+    restart: always
+    # Production resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    # Optimized healthcheck
+    healthcheck:
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+# Production Volumes
+volumes:
+  postgres_data_prod:
+    name: todo-postgres-data-prod
+    driver: local
+  backend_logs_prod:
+    name: todo-backend-logs-prod
+    driver: local
+  backend_heap_dumps:
+    name: todo-backend-heap-dumps
+    driver: local
