@@ -10,4 +10,13 @@ export default defineConfig({
       },
     }),
   ],
+  base: process.env.VITE_BASE_URL || '/',
+  server: {
+    port: 5173,
+    host: true,
+  },
+  preview: {
+    port: 3000,
+    host: true,
+  },
 })
