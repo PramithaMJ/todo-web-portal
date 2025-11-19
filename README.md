@@ -305,18 +305,6 @@ docker-compose up -d --scale backend=3
 
 ### GitHub Actions - Docker Hub Deployment
 
-This project includes automated CI/CD pipeline that builds and pushes Docker images to Docker Hub.
-
-📖 **[Complete Setup Guide](GITHUB_ACTIONS_SETUP.md)** - Detailed step-by-step instructions
-
-#### Quick Setup
-
-Go to your GitHub repository → Settings → Secrets and variables → Actions, and add:
-
-1. **DOCKER_USERNAME** - Your Docker Hub username
-2. **DOCKER_PASSWORD** - Your Docker Hub password or access token
-3. **VITE_API_URL** (optional) - Production API URL for frontend (e.g., `http://your-server-ip:8080`)
-
 #### Pipeline Features
 
 - Builds on push to `main` or `develop` branches
@@ -345,12 +333,8 @@ git push origin v1.0.0
 
 ```bash
 # Pull latest images
-docker pull <your-dockerhub-username>/todo-backend:latest
-docker pull <your-dockerhub-username>/todo-frontend:latest
-
-# Pull specific version
-docker pull <your-dockerhub-username>/todo-backend:v1.0.0
-docker pull <your-dockerhub-username>/todo-frontend:v1.0.0
+docker pull pramithamj/todo-backend:latest 
+docker pull pramithamj/todo-frontend:latest
 ```
 
 #### Using Published Images
@@ -359,7 +343,7 @@ Use the pre-configured `docker-compose.hub.yml`:
 
 ```bash
 # Set your Docker Hub username
-export DOCKER_USERNAME=your-dockerhub-username
+export DOCKER_USERNAME=pramithamj
 
 # Pull and run images from Docker Hub
 docker-compose -f docker-compose.hub.yml pull
@@ -374,7 +358,7 @@ docker-compose -f docker-compose.hub.yml up -d
 Or update your `.env` file:
 
 ```bash
-DOCKER_USERNAME=your-dockerhub-username
+DOCKER_USERNAME=pramithamj
 BACKEND_VERSION=latest
 FRONTEND_VERSION=latest
 ```
@@ -389,7 +373,7 @@ docker-compose -f docker-compose.hub.yml up -d
 - `docker-compose.yml` - Full stack (all services)
 - `docker-compose.backend.yml` - Backend only (recommended for production)
 - `docker-compose.hub.yml` - Using pre-built Docker Hub images
-- `.env.backend` - Backend environment template
+- `.env.example` - environment template
 
 ## 📄 License
 
