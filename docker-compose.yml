@@ -1,17 +1,13 @@
 services:
-  # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
     container_name: todo-postgres
-    restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME:-tododb}
       POSTGRES_USER: ${DB_USER:-todouser}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-todopassword}
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
-      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
@@ -22,101 +18,71 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 10s
+    restart: unless-stopped
 
-  # Backend Application (Spring Boot)
   backend:
     build:
       context: ./todo-backend
       dockerfile: Dockerfile
-      args:
-        - SPRING_PROFILE=${SPRING_PROFILE:-prod}
     container_name: todo-backend
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
-      # Spring Configuration
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-prod}
-      
-      # Database Configuration
       DATABASE_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-tododb}
       DATABASE_USERNAME: ${DB_USER:-todouser}
       DATABASE_PASSWORD: ${DB_PASSWORD:-todopassword}
-      
-      # JWT Configuration
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-86400000}
       JWT_REFRESH_EXPIRATION_MS: ${JWT_REFRESH_EXPIRATION_MS:-604800000}
-      
-      # OAuth2 - Google
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-      
-      # OAuth2 - GitHub
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
-      
-      # CORS & Application URLs
-      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
-      AUTHORIZED_REDIRECT_URIS: ${AUTHORIZED_REDIRECT_URIS:-http://localhost:3000/oauth2/redirect}
-      
-      # JVM Options
-      JAVA_OPTS: "-Xms512m -Xmx1g -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
-      
-      # Logging
-      LOGGING_LEVEL_ROOT: ${LOG_LEVEL:-info}
+      AUTHORIZED_REDIRECT_URIS: ${AUTHORIZED_REDIRECT_URIS:-http://localhost:3000/auth/callback}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      CORS_ALLOWED_METHODS: ${CORS_ALLOWED_METHODS:-GET,POST,PUT,DELETE,PATCH,OPTIONS}
+      CORS_ALLOWED_HEADERS: ${CORS_ALLOWED_HEADERS:-*}
+      CORS_ALLOW_CREDENTIALS: ${CORS_ALLOW_CREDENTIALS:-true}
+      CORS_MAX_AGE: ${CORS_MAX_AGE:-3600}
     ports:
       - "${BACKEND_PORT:-8080}:8080"
-    volumes:
-      - backend_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - todo-network
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
       start_period: 60s
+    restart: unless-stopped
 
-  # Frontend Application (React + Nginx)
   frontend:
     build:
       context: ./todo-frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=${VITE_API_URL:-http://localhost:8080}
-        - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8080/api}
-        - VITE_APP_ENV=${VITE_APP_ENV:-production}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080/api/v1}
     container_name: todo-frontend
-    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
     depends_on:
       backend:
         condition: service_healthy
-    ports:
-      - "${FRONTEND_PORT:-3000}:80"
     networks:
       - todo-network
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost/ || exit 1"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
       interval: 30s
-      timeout: 5s
+      timeout: 3s
       retries: 3
       start_period: 10s
+    restart: unless-stopped
 
-# Networks
 networks:
   todo-network:
     driver: bridge
-    name: todo-network
 
-# Volumes
 volumes:
   postgres_data:
-    name: todo-postgres-data
-    driver: local
-  backend_logs:
-    name: todo-backend-logs
-    driver: local

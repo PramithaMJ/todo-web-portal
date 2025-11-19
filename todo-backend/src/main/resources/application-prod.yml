@@ -11,11 +11,17 @@ logging:
   level:
     root: INFO
     com.pramithamj.todo: INFO
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
     org.springframework.web: INFO
 
 server:
   error:
-    include-stacktrace: on_param
+    include-stacktrace: never
     include-exception: false
     include-message: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
