@@ -33,7 +33,7 @@ describe('Auth API', () => {
       id: 'user-123',
       name: 'Test User',
       email: 'test@example.com',
-      avatarUrl: null,
+      avatar: null,
       createdAt: new Date('2024-01-01T00:00:00.000Z'),
     },
   };

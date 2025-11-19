@@ -10,7 +10,6 @@ import {
   handleOAuthCallback,
 } from '../oauth.api';
 import type { OAuthProvider } from '../../../../entities/session/model/types';
-import { env } from '../../../../shared/config/env';
 
 // Mock apiClient
 vi.mock('../../../../shared/api/client/apiClient', () => ({

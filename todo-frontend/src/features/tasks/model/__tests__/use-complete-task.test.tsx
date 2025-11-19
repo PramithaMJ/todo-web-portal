@@ -22,7 +22,6 @@ describe('useCompleteTask', () => {
     title: 'Test Task',
     description: 'Test Description',
     status: 'PENDING',
-    priority: 'medium',
     createdAt: new Date('2024-01-01T00:00:00.000Z'),
     updatedAt: new Date('2024-01-01T00:00:00.000Z'),
     userId: 'user-123',
